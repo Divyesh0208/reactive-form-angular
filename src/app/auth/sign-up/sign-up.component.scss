@@ -1,0 +1,202 @@
+.container-fluid {
+  margin: 50px auto;
+  // width: 1000px;
+}
+
+// .form-fields{
+//   display: grid;
+//     grid-template-columns: 1fr 1fr;
+// }
+.avatar-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  // border-radius: ;
+  // cursor: pointer;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.camera-icon {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 30px;
+  bottom: 5px;
+  right: 0px;
+  // font-size: 10px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.image-action {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+mat-form-field {
+  width: 40%;
+  font-size: 18px;
+  // input{
+  //     margin: 10px;
+  // }
+}
+
+mat-error {
+  margin-top: -20px;
+  margin-bottom: 20px;
+  width: 80%;
+  font-size: 13px;
+}
+
+.hobbies {
+  width: 40%;
+}
+
+.show-hobbies {
+
+  margin-top: -10px;
+
+  .input-group {
+    height: 35px;
+
+    input {
+      padding-left: 10px;
+      border-radius: 10px !important;
+    }
+
+    span mat-icon {
+      margin-top: 4px;
+    }
+
+  }
+
+  // span mat-icon{
+  //   border-radius: 10px;
+  // }
+}
+
+//   .error{
+//     border-color: red;
+//   }
+
+
+
+.input-group {
+  width: 150px;
+  position: relative;
+
+  input {
+    width: 100%;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    // border: 1px solid black;
+    position: absolute;
+    width: 20px;
+    right: 5px
+  }
+}
+
+.mobile_field {
+  width: 40%;
+}
+
+.counry_selection {
+  width: 40%;
+}
+
+.mobile_section {
+  width: 60%;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+
+
+.show-hobbies {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 20px;
+  column-gap: 20px;
+  padding: 0 20px 20px 20px;
+}
+
+.time-block {
+  border: 1px solid gray;
+  border-radius: 5px;
+  width: 40%;
+}
+
+.error-block {
+  border: 1px solid red;
+  border-radius: 5px;
+  width: 40%;
+}
+
+.time {
+  width: 100px;
+}
+
+.error-message {
+
+  color: red;
+}
+
+.register-button {
+  margin-right: 16px;
+  background-color: #66BB6A !important;
+  color: white !important;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 18px;
+  /* font-weight: bold; */
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+//     position: absolute;
+//     bottom: 5px;
+//     right:5px;
+//     color:white;
+//   }
+
+@media (max-width:768px) {
+  mat-form-field {
+    width: 80%;
+  }
+
+  .hobbies {
+    width: 80%;
+  }
+
+  .time-block,
+  .error-block {
+    width: 80%;
+  }
+
+  .mobile_field {
+    width: 80%;
+  }
+
+}

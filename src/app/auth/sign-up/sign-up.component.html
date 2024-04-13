@@ -1,0 +1,258 @@
+<!-- <div class="container-fluid shadow p-3 bg-body rounded">
+    <div class="row">
+        <div class="col-12">
+            <div class="custom-container input-todo-container">
+
+                <h3 class="text-secondary d-flex justify-content-center">Bussiness Form</h3>
+
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<mat-card class="container-fluid shadow p-3 bg-body rounded">
+    <mat-card-header class="text-secondary d-flex justify-content-center mb-5">
+        <mat-card-title>
+            <h3>Bussiness Registration Form</h3>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="custom-container">
+
+        <form [formGroup]="registerForm">
+
+            <div class="d-flex flex-column align-items-center">
+
+                <div class="avatar-container">
+                    <img class="avatar" [src]="imageUrl">
+                    <input type="file" id="fileInput" style="display: none" (change)="onFileSelected($event)"
+                        name="image" formControlName="image">
+                    <div class="camera-icon" (click)="openFileSelector()">
+                        <mat-icon class="image-action">photo_camera</mat-icon>
+                    </div>
+                </div>
+
+                <mat-form-field appearance="outline" class="mt-3"
+                    [ngClass]="{'error': registerForm.get('first_name')?.invalid && (registerForm.get('first_name')?.dirty || registerForm.get('first_name')?.touched)}">
+                    <mat-label>First Name</mat-label>
+                    <input matInput type="text" formControlName="first_name">
+                    <mat-icon matSuffix>account_circle</mat-icon>
+                    <!-- <mat-hint>Hint</mat-hint> -->
+                </mat-form-field>
+                <mat-error
+                    *ngIf="registerForm.get('first_name')?.invalid && (registerForm.get('first_name')?.dirty || registerForm.get('first_name')?.touched)"
+                    class="d-flex flex-start">*Required field</mat-error>
+
+                <mat-form-field appearance="outline"
+                    [ngClass]="{'error': registerForm.get('last_name')?.invalid && (registerForm.get('last_name')?.dirty || registerForm.get('last_name')?.touched)}">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput type="text" formControlName="last_name">
+                    <mat-icon matSuffix>account_circle</mat-icon>
+                </mat-form-field>
+                <mat-error
+                    *ngIf="registerForm.get('last_name')?.invalid && (registerForm.get('last_name')?.dirty || registerForm.get('last_name')?.touched)"
+                    class="d-flex flex-start">*Required field</mat-error>
+
+                <mat-form-field appearance="outline"
+                    [ngClass]="{'error': registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)}">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" formControlName="email" (input)="passwordNameValidator()">
+                    <mat-icon matSuffix>alternate_email</mat-icon>
+                </mat-form-field>
+                <mat-error
+                    *ngIf="!registerForm.get('email')?.errors?.['email'] && registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)"
+                    class="d-flex flex-start">*Required field</mat-error>
+                <mat-error *ngIf="registerForm.get('email')?.errors?.['email']">*Please enter a valid email
+                    address.</mat-error>
+
+                <!-- <mat-form-field appearance="outline"
+                    [ngClass]="{'error': registerForm.get('mobile_number')?.invalid && (registerForm.get('mobile_number')?.dirty || registerForm.get('mobile_number')?.touched)}">
+                    <mat-label>Mobile Number</mat-label>
+                    <input matInput type="number" formControlName="mobile_number">
+                    <mat-icon matSuffix>call</mat-icon>
+                </mat-form-field> -->
+
+                <div class="d-flex flex-row mobile_field">
+                    <div class="counry_selection">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-select placeholder="Country" formControlName="selectCountry">
+                                <mat-option *ngFor="let country of countries" [value]="country"
+                                    (click)="selectCountry(country)">
+                                    {{country.flag}}
+                                    {{country.code}} ({{country.dial_code}})
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="mobile_section">
+                        <mat-form-field appearance="outline"
+                            [ngClass]="{'error': registerForm.get('mobile_number')?.invalid && (registerForm.get('mobile_number')?.dirty || registerForm.get('mobile_number')?.touched)}">
+                            <mat-label>Mobile</mat-label>
+                            <input matInput type="number" formControlName="mobile_number">
+                            <mat-icon matSuffix>call</mat-icon>
+                        </mat-form-field>
+                        <mat-error
+                            *ngIf="registerForm.get('mobile_number')?.hasError('required') &&  registerForm.get('mobile_number')?.touched"
+                            class="d-flex flex-start">*Required field</mat-error>
+                        <mat-error
+                            *ngIf="registerForm.get('mobile_number')?.hasError('validMobile') && registerForm.get('mobile_number')?.touched"
+                            class="d-flex flex-start">*Please enter a valid 10-digit mobile number.</mat-error>
+                    </div>
+                </div>
+
+                <mat-form-field appearance="outline"
+                    [ngClass]="{'error': registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)}">
+                    <mat-label>Password</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" formControlName="password"
+                        (input)="passwordNameValidator()">
+                    <mat-icon matSuffix (click)="hide = !hide" class="btn">{{hide ? 'visibility_off' :
+                        'visibility'}}</mat-icon>
+                </mat-form-field>
+                <mat-error
+                    *ngIf="registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched"
+                    class="d-flex flex-start">*Required field</mat-error>
+                <mat-error
+                    *ngIf="registerForm.get('password')?.hasError('uppercaseRequired') && registerForm.get('password')?.touched"
+                    class="d-flex flex-start">*One character must be in uppercase</mat-error>
+                <mat-error
+                    *ngIf="registerForm.get('password')?.hasError('lowercaseRequired') && registerForm.get('password')?.touched"
+                    class="d-flex flex-start">*One character must be in lowercase</mat-error>
+                <mat-error
+                    *ngIf="registerForm.get('password')?.hasError('numberRequired') && registerForm.get('password')?.touched"
+                    class="d-flex flex-start">*Must contain one number</mat-error>
+                <mat-error
+                    *ngIf="registerForm.get('password')?.hasError('specialCharRequired') && registerForm.get('password')?.touched"
+                    class="d-flex flex-start">*Must contain one special character like <br> ! @ #$ % ^ & * ( ) , . ? " :
+                    &#123; &#125; | &lt; ></mat-error>
+                <mat-error
+                    *ngIf="registerForm.get('password')?.hasError('minlength') && registerForm.get('password')?.touched"
+                    class="d-flex flex-start">*Length should be greater then 8</mat-error>
+                <mat-error *ngIf="registerForm.get('password')?.hasError('noCommon')" class="d-flex flex-start">*The
+                    password must not include any part of the email, such as '{{ commonPart }}'</mat-error>
+
+                <div class="hobbies">
+                    <mat-form-field class="w-100" appearance="outline" [class]="isHobbyError ? 'error' : 'hobby-field'">
+                        <mat-label>Hobby</mat-label>
+                        <input matInput type="text" #intrest formControlName="hobby" (keydown.enter)="addHobby()">
+                        <mat-icon matSuffix class="btn" (click)="addHobby()">add</mat-icon>
+                    </mat-form-field>
+                    <mat-error *ngIf="registerForm.get('hobby')?.hasError('hobbyLimitExceeded')">You can only add up to
+                        4 hobbies.</mat-error>
+                    <mat-error *ngIf="registerForm.get('hobby')?.hasError('hobbyAlreadyAdded')">This hobby is already
+                        added.</mat-error>
+                    <mat-error *ngIf="registerForm.get('hobby')?.hasError('emptyField')">Please write your
+                        hobby.</mat-error>
+
+                    <div class="show-hobbies w-100" *ngIf="hobbies.length > 0">
+                        <div class="input-group d-flex flex-row" *ngFor="let hobby of hobbies; index as i">
+                            <input type="text" [value]="hobby" readonly>
+                            <span class="input-group-append" (click)="close(i)"><mat-icon>close</mat-icon></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- <mat-form-field appearance="outline">
+                    <mat-label>Address 1</mat-label>
+                    <input matInput type="text" formControlName="address1">
+                    <mat-icon matSuffix>home</mat-icon>
+                </mat-form-field> -->
+
+                <mat-form-field appearance="outline"
+                    [ngClass]="{'error': registerForm.get('address1')?.invalid && (registerForm.get('address1')?.dirty || registerForm.get('address1')?.touched)}">
+                    <mat-label>Address 1</mat-label>
+                    <input matInput type="text" (input)="search()" autocomplete="off" formControlName="address1" #xyz>
+                    <mat-icon matSuffix>home</mat-icon>
+                </mat-form-field>
+                <mat-error
+                    *ngIf="registerForm.get('address1')?.invalid && (registerForm.get('address1')?.dirty || registerForm.get('address1')?.touched)"
+                    class="d-flex flex-start">*Required field</mat-error>
+
+                <mat-list role="list">
+                    <mat-list-item role="listitem" *ngFor="let place of places">{{ place.description }}</mat-list-item>
+                </mat-list>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Address 2</mat-label>
+                    <input matInput type="text" formControlName="address2">
+                    <mat-icon matSuffix>home</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline"
+                    [ngClass]="{'error': registerForm.get('zipcode')?.invalid && (registerForm.get('zipcode')?.dirty || registerForm.get('zipcode')?.touched)}">
+                    <mat-label>Zipcode</mat-label>
+                    <input matInput type="number" formControlName="zipcode">
+                    <mat-icon matSuffix></mat-icon>
+                </mat-form-field>
+                <mat-error
+                    *ngIf="registerForm.get('zipcode')?.hasError('required') && (registerForm.get('zipcode')?.dirty || registerForm.get('zipcode')?.touched)"
+                    class="d-flex flex-start">*Required field</mat-error>
+                <mat-error
+                    *ngIf="registerForm.get('zipcode')?.hasError('pattern') && (registerForm.get('zipcode')?.dirty || registerForm.get('zipcode')?.touched)"
+                    class="d-flex flex-start">*Please enter valid 6 digit zip code.</mat-error>
+
+                <mat-form-field appearance="outline"
+                    [ngClass]="{'error': registerForm.get('state')?.invalid && (registerForm.get('state')?.dirty || registerForm.get('state')?.touched)}">
+                    <mat-label>State</mat-label>
+                    <input matInput type="text" formControlName="state">
+                    <mat-icon matSuffix></mat-icon>
+                </mat-form-field>
+                <mat-error
+                    *ngIf="registerForm.get('state')?.invalid && (registerForm.get('state')?.dirty || registerForm.get('state')?.touched)"
+                    class="d-flex flex-start">*Required field</mat-error>
+
+                <mat-form-field appearance="outline"
+                    [ngClass]="{'error': registerForm.get('country')?.invalid && (registerForm.get('country')?.dirty || registerForm.get('country')?.touched)}">
+                    <mat-label>Country</mat-label>
+                    <input matInput type="text" formControlName="country">
+                    <mat-icon matSuffix></mat-icon>
+                </mat-form-field>
+                <mat-error
+                    *ngIf="registerForm.get('country')?.invalid && (registerForm.get('country')?.dirty || registerForm.get('country')?.touched)"
+                    class="d-flex flex-start">*Required field</mat-error>
+
+                <!-- Open & Close time -->
+                <div
+                    [class]="(registerForm.get('openTime')?.hasError('incorrect') || registerForm.get('openTime')?.hasError('oTimeLesser')
+                    || registerForm.get('closeTime')?.hasError('incorrect') || registerForm.get('closeTime')?.hasError('cTimeGreater')) ? 'error-block' : 'time-block'">
+
+                    <p class="text-center mt-2">Openning & Close Time</p>
+                    <mat-slider min="0" max="23.75" step="0.25" style="width: 95%">
+                        <input matSliderStartThumb formControlName="startRange" #start (input)="startTime()">
+                        <input matSliderEndThumb formControlName="endRange" #end (input)="endTime()">
+                    </mat-slider>
+
+                    <div class="d-flex justify-content-between">
+                        <div class="m-2">
+                            <label for="open" class="me-1">Open</label>
+                            <input type="text" id="open" class="time" formControlName="openTime" (input)="openT()">
+                        </div>
+                        <div class="m-2">
+                            <label for="close" class="me-1">Close</label>
+                            <input type="text" id="close" class="time" formControlName="closeTime" (input)="closeT()">
+                        </div>
+                    </div>
+                </div>
+                <span class="error-message" *ngIf="registerForm.get('openTime')?.hasError('incorrect')">Invalid Format
+                    of open time</span>
+                <span class="error-message" *ngIf="registerForm.get('openTime')?.hasError('oTimeLesser')">Opening Time
+                    should not greater than closing Time</span>
+                <span class="error-message" *ngIf="registerForm.get('closeTime')?.hasError('incorrect')">Invalid Format
+                    of close time</span>
+                <span class="error-message" *ngIf="registerForm.get('closeTime')?.hasError('cTimeGreater')">Closing Time
+                    should not lesser than opening Time</span>
+
+
+
+
+
+                <!-- <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" formControlName="email">
+                </mat-form-field> -->
+
+                <button mat-raised-button class="register-button mt-5" type="button"
+                    (click)="register()">Register</button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
